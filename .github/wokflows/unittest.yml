@@ -1,0 +1,31 @@
+name: Python CI # name of the workflow
+
+# Trigger the workflow on any push to the main branch or PR
+on:
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  test: # name of the job
+    runs-on: ubuntu-latest # specify the OS (container)
+
+    steps:
+      - name: Checkout code # step to checkout the code
+        uses: actions/checkout@v2
+
+      - name: Set up Python # step to set up Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8' # specify the Python version
+
+      - name: Install dependencies # step to install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests # step to run unit tests
+        run: pytest
